@@ -13,16 +13,16 @@ Initially, the challenge asks you to ssh into a pwnable server to start. Going i
 ![img1](images/img1.png)
 
 Pretty standard so far. Trying to run ./tiny_easy however, wasn't so easy.
-![img1](images/img2.png)
+![img2](images/img2.png)
 
 Whatever input I tried to give the program, it would always end up as a segmentation fault.
 
 So the natural conclusion I had was to pop it into gdb and see if I could get any more details about what was happening there. Running gdb….
-![img1](images/img3.png)
+![img3](images/img3.png)
 
 
 .. gave me absolutely nothing.
-![img1](images/img4.png)
+![img4](images/img4.png)
 
 Running a backtrace on the crashed program also yielded nothing.
 
@@ -30,10 +30,10 @@ Running a backtrace on the crashed program also yielded nothing.
 I needed to find something else, because I was just getting nowhere. I found a tutorial from sheepshellcode.com, which gave me a few more ideas of where to start looking.
 
 Firstly, I ran a file command on the tiny_easy file. I got this for the output:
-![img1](images/img5.png)
+![img5](images/img5.png)
 
 I actually learned a couple things from this. Firstly, I had never heard of an ELF executable, and it turns out that ELF stands for "Executable and Linkable Format". Within Linux, it is the common standard file format for executable files.
-![img1](images/img6.png)
+![img6](images/img6.png)
 
 
 As that stands, it didn't really tell me much about the file itself, knowing it is just a common standard.
@@ -42,7 +42,7 @@ The second thing in the output that was foreign to me was the "statically linked
 
 
 Once I had done this, I continued reading and found that the tutorial used a command called readelf, which essentially read the header of the file.
-![img1](images/img7.png)
+![img7](images/img7.png)
 
 
 This gave a bit more information about the file, but still didn't really help. I used gdb to set a breakpoint at the Entry point address that was given in the findelf command. When I ran it with gdb, the program hadn't segfaulted yet, which was kind of expected since the program wouldn't have started.
